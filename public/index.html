@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeCraftHub Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">Learning Platform</p>
+        <h1>CodeCraftHub Dashboard</h1>
+        <p class="header-copy">Create, update, and track your learning courses.</p>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="message-area" aria-live="polite">
+        <p id="message" class="message hidden"></p>
+      </section>
+
+      <section class="stats-grid" aria-label="Course statistics">
+        <article class="stat-card">
+          <span class="stat-label">Total</span>
+          <strong id="totalCourses">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Not Started</span>
+          <strong id="notStartedCourses">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">In Progress</span>
+          <strong id="inProgressCourses">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Completed</span>
+          <strong id="completedCourses">0</strong>
+        </article>
+      </section>
+
+      <div class="dashboard-grid">
+        <section class="panel" aria-labelledby="formTitle">
+          <h2 id="formTitle">Add a Course</h2>
+          <form id="courseForm" novalidate>
+            <div class="form-group">
+              <label for="name">Course name</label>
+              <input id="name" name="name" type="text" placeholder="Node.js Basics" />
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                placeholder="Learn how to build simple REST APIs."
+              ></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="target_date">Target date</label>
+                <input id="target_date" name="target_date" type="date" />
+              </div>
+
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                  <option value="">Choose status</option>
+                  <option value="Not Started">Not Started</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+            </div>
+
+            <button id="submitButton" class="button primary-button" type="submit">
+              Add Course
+            </button>
+          </form>
+        </section>
+
+        <section class="panel courses-panel" aria-labelledby="coursesTitle">
+          <div class="section-heading">
+            <div>
+              <h2 id="coursesTitle">Courses</h2>
+              <p id="courseCount">No courses yet</p>
+            </div>
+            <button id="refreshButton" class="button secondary-button" type="button">
+              Refresh
+            </button>
+          </div>
+
+          <div id="loading" class="loading hidden">Loading courses...</div>
+          <div id="coursesContainer" class="courses-container"></div>
+          <p id="emptyState" class="empty-state hidden">
+            No courses yet. Add your first course to get started.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,72 +1,104 @@
-# The CodeCraftHub learning management system (LMS)
+# CodeCraftHub
 
-A simple REST API to track personal learning goals and courses.
+CodeCraftHub is a beginner-friendly full-stack learning project. It includes an Express REST API for managing courses and a vanilla HTML, CSS, and JavaScript dashboard that talks to the API with `fetch`.
 
----
+The project stores all course data in `courses.json`, so no database setup is required.
 
-# Overview
+## Features
 
-CodeCraftHub helps developers keep track of courses they want to learn. Built with Node.js and Express, the platform provides a straightforward REST API for managing a learner's journey.
+- Vanilla JavaScript dashboard served by Express
+- Create, read, update, and delete courses
+- Course statistics for total, not started, in progress, and completed courses
+- JSON file-based persistence
+- Responsive layout for mobile, tablet, and desktop
+- Visible success and error messages
+- Simple code structure for beginners
 
-This project uses a local JSON file (`courses.json`) for data persistence instead of a database, making it beginner-friendly and easy to understand.
+## Project Structure
 
----
+```text
+codecrafthub/
+|-- public/
+|   |-- index.html
+|   |-- styles.css
+|   `-- script.js
+|-- app.js
+|-- courses.json
+|-- package.json
+|-- package-lock.json
+|-- README.md
+`-- LICENSE
+```
 
-# Features
+## Setup
 
-- Full CRUD operations for course management
-- JSON file-based storage (no database needed)
-- RESTful API design
-- Proper error handling
-- Course search functionality
-- Course statistics endpoint
-- Beginner-friendly architecture
-
----
-
-# Installation
-
-## 1. Clone or download the project
-
-## 2. Install Node.js dependencies
+Install dependencies:
 
 ```bash
 npm install
 ```
 
----
-
-# Running the application
-
-Start the Express server:
+Start the full project:
 
 ```bash
 npm start
 ```
 
-The API will be available at:
+The dashboard will be available at:
 
 ```text
 http://localhost:5000
 ```
 
-For development mode using nodemon:
+The API will be available at:
 
-```bash
-npm run dev
+```text
+http://localhost:5000/api/courses
 ```
 
-You can also run the application directly:
+You can also run the server directly:
 
 ```bash
 node app.js
 ```
 
----
+## Frontend Dashboard
 
-# Course Model
+The frontend lives in the `public/` folder and is served by Express using `express.static`.
 
-Each course uses the following structure:
+It supports:
+
+- Loading all courses on page load
+- Adding a new course
+- Editing all user-controlled course fields
+- Deleting a course
+- Refreshing the course list
+- Showing API errors in the page
+- Displaying course stats
+
+No frontend frameworks, build tools, or external UI libraries are used.
+
+## API Integration
+
+The dashboard uses these API endpoints:
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/courses` | Load all courses |
+| `POST` | `/api/courses` | Create a new course |
+| `PUT` | `/api/courses/:id` | Update an existing course |
+| `DELETE` | `/api/courses/:id` | Delete a course |
+| `GET` | `/api/courses/stats` | Load course statistics |
+
+The frontend calls the API at:
+
+```text
+http://localhost:5000/api/courses
+```
+
+## Course Model
+
+Each course uses this structure:
 
 ```json
 {
@@ -85,64 +117,23 @@ Valid status values:
 - `In Progress`
 - `Completed`
 
----
+## Example API Requests
 
-# API Endpoints
+Create a course:
 
-## 1. Add a Course
-
-### POST `/api/courses`
-
-Request body:
-
-```json
-{
-  "name": "Python Basics",
-  "description": "Learn Python fundamentals",
-  "target_date": "2025-12-31",
-  "status": "Not Started"
-}
+```bash
+curl -X POST http://localhost:5000/api/courses \
+  -H "Content-Type: application/json" \
+  -d "{\"name\":\"Node.js Basics\",\"description\":\"Learn Express CRUD APIs.\",\"target_date\":\"2026-08-01\",\"status\":\"Not Started\"}"
 ```
 
----
-
-## 2. Get all courses
-
-### GET `/api/courses`
-
-Example:
+Get all courses:
 
 ```bash
 curl http://localhost:5000/api/courses
 ```
 
----
-
-## 3. Get a specific course
-
-### GET `/api/courses/:id`
-
-Example:
-
-```bash
-curl http://localhost:5000/api/courses/1
-```
-
----
-
-## 4. Update a course
-
-### PUT `/api/courses/:id`
-
-Request body (all fields optional):
-
-```json
-{
-  "status": "In Progress"
-}
-```
-
-Example:
+Update a course:
 
 ```bash
 curl -X PUT http://localhost:5000/api/courses/1 \
@@ -150,105 +141,60 @@ curl -X PUT http://localhost:5000/api/courses/1 \
   -d "{\"status\":\"In Progress\"}"
 ```
 
----
-
-## 5. Delete a course
-
-### DELETE `/api/courses/:id`
-
-Example:
+Delete a course:
 
 ```bash
 curl -X DELETE http://localhost:5000/api/courses/1
 ```
 
----
-
-## 6. Get course statistics
-
-### GET `/api/courses/stats`
-
-Example:
+Get stats:
 
 ```bash
 curl http://localhost:5000/api/courses/stats
 ```
 
----
+## File-Based Persistence
 
-## 7. Search courses
+All data is stored in `courses.json`.
 
-### GET `/api/courses/search?q=term`
+The backend:
 
-Example:
+- reads from `courses.json` during requests
+- writes to `courses.json` after create, update, and delete operations
+- creates the file automatically if it does not exist
+- safely treats empty or invalid JSON as an empty course list
 
-```bash
-curl "http://localhost:5000/api/courses/search?q=node"
+## Screenshots
+
+Add screenshots here after running the dashboard locally.
+
+```text
+Desktop screenshot placeholder
+Mobile screenshot placeholder
 ```
 
----
+## Testing Checklist
 
-# Testing
+- Start the server with `npm start`
+- Open `http://localhost:5000`
+- Create a course from the dashboard
+- Edit the course
+- Delete the course
+- Confirm `courses.json` updates after changes
+- Confirm stats update after changes
+- Test the layout on a narrow mobile-width screen
 
-Use the provided curl commands or import the endpoints into Postman or Thunder Client to test the API functionality.
+## Troubleshooting
 
-Test the following operations:
-
-- Create courses
-- Retrieve all courses
-- Retrieve a course by ID
-- Update courses
-- Delete courses
-- Search courses
-- View course statistics
-
----
-
-# File-Based Persistence
-
-All course data is stored in `courses.json`.
-
-The application:
-
-- reads from the file during requests
-- writes back after create/update/delete operations
-- automatically creates the file if it does not exist
-- safely handles empty or invalid JSON data
-
----
-
-# Troubleshooting
-
-## Problem:
-
-"Cannot find module 'express'"
-
-## Solution:
+If Express cannot be found, run:
 
 ```bash
 npm install
 ```
 
----
+If port `5000` is already in use, stop the other process or set a different port:
 
-## Problem:
-
-"Port already in use"
-
-## Solution:
-
-Stop other applications using port 5000 or change the `PORT` value in `app.js`.
-
----
-
-# Project structure
-
-```text
-codecrafthub/
-├── app.js             # Main Express application
-├── courses.json       # Data storage (auto-created)
-├── package.json       # Dependencies and scripts
-├── package-lock.json  # Dependency lock file
-├── README.md          # Project documentation
-└── node_modules/      # Installed packages
+```bash
+$env:PORT=5001
+npm start
 ```

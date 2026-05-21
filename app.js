@@ -8,6 +8,7 @@ const COURSES_FILE = path.join(__dirname, "courses.json");
 const VALID_STATUSES = ["Not Started", "In Progress", "Completed"];
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 function loadCourses() {
   try {
